@@ -2,6 +2,10 @@ import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Logo from "../assets/images/logo.png";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import SliderOneImg from '../assets/images/banner-1.jpg'
+import SliderATwoImg from '../assets/images/banner-2.jpg'
 
 const Home = () => {
   return (
@@ -18,10 +22,7 @@ const Home = () => {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
-              <Nav
-                className="ms-auto my-2 my-lg-0"
-                navbarScroll
-              >
+              <Nav className="ms-auto my-2 my-lg-0" navbarScroll>
                 <Nav.Link href="#action1">Mens</Nav.Link>
                 <Nav.Link href="#action2">Women</Nav.Link>
                 <Nav.Link href="#action2">Kids</Nav.Link>
@@ -57,6 +58,32 @@ const Home = () => {
           </Navbar>
         </div>
       </header>
+
+      <section className="section-1">
+        <Swiper
+          spaceBetween={0}
+          slidesPerView={1}
+          breakpoints={{
+            1024: {
+              slidesPerView: 1,
+              spaceBetween: 0,
+            },
+          }}
+        >
+          <SwiperSlide>
+            <div
+              className="content"
+              style={{ backgroundImage: `url(${SliderOneImg})` }}
+            ></div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div
+              className="content"
+              style={{ backgroundImage: `url(${SliderATwoImg})` }}
+            ></div>
+          </SwiperSlide>
+        </Swiper>
+      </section>
     </>
   );
 };
