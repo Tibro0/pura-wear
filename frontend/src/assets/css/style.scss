@@ -97,23 +97,23 @@ header {
   }
 }
 
-footer{
+footer {
   background-color: $tertiary-color;
-  h2{
+  h2 {
     font-size: 1.5em;
   }
-  ul{
-    li{
+  ul {
+    li {
       margin-bottom: 10px;
-      a{
+      a {
         font-size: 1.2em;
         color: $primary-white;
       }
     }
   }
-  .spotlight{
-    border-top: 1px solid rgba($primary-white, 0.10);
-    border-bottom: 1px solid rgba($primary-white, 0.10);
+  .spotlight {
+    border-top: 1px solid rgba($primary-white, 0.1);
+    border-bottom: 1px solid rgba($primary-white, 0.1);
   }
 }
 
@@ -142,9 +142,9 @@ footer{
       transition: all 0.3s ease-out;
     }
   }
-  &:hover{
-    img{
-        scale: 1.2;
+  &:hover {
+    img {
+      scale: 1.2;
     }
   }
   .card-body {
@@ -152,11 +152,24 @@ footer{
     a {
       font-size: 1.2rem;
     }
-    .price{
-        font-size: 1.2rem;
-        span{
-            color: rgba($primary-black, 0.5);
+    .price {
+      font-size: 1.2rem;
+      padding-bottom: 20px;
+      span {
+        color: rgba($primary-black, 0.5);
+      }
+    }
+  }
+}
+
+@media (min-width: 200px) and (max-width: 768px) {
+  .section-1 {
+    .swiper {
+      .swiper-wrapper {
+        .swiper-slide {
+          height: 400px;
         }
+      }
     }
   }
 }
