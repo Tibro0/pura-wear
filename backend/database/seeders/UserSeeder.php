@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             [
                 "name" => "Admin",
                 "email" => "admin@gmail.com",
+                "role"=> "admin",
                 "email_verified_at" => Carbon::now(),
                 "password" => bcrypt("password"),
                 'remember_token' => Str::random(10),
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Customer',
                 'email' => 'customer@gmail.com',
+                "role"=> "customer",
                 "email_verified_at" => Carbon::now(),
                 'password' => bcrypt('password'),
                 'remember_token' => Str::random(10),
