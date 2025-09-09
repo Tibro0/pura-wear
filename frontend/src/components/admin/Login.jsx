@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../common/Layout";
 import { useForm } from "react-hook-form";
 import { apiUrl } from "../common/http";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AdminAuthContext } from "../context/AdminAuth";
 
 const Login = () => {
+  const { login } = useContext(AdminAuthContext);
   const {
     register,
     handleSubmit,
@@ -35,9 +37,8 @@ const Login = () => {
             id: result.id,
             name: result.name,
           };
-
           localStorage.setItem("adminInfo", JSON.stringify(adminInfo));
-
+          login(adminInfo);
           navigate("/admin/dashboard");
         } else {
           toast.error(result.message);

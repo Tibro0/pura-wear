@@ -8,6 +8,7 @@ import Checkout from "./components/Checkout";
 import Login from "./components/admin/Login";
 import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./components/admin/Dashboard";
+import { AdminRequireAuth } from "./components/admin/AdminRequireAuth";
 
 function App() {
   return (
@@ -21,7 +22,15 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
 
           <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRequireAuth>
+                <Dashboard />
+              </AdminRequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
 
