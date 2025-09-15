@@ -35,7 +35,7 @@ const Create = () => {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json(data))
+      .then((res) => res.json())
       .then((result) => {
         setDisable(false);
         if (result.status == 200) {
