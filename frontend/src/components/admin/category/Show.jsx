@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { adminToken, apiUrl } from "../../common/http";
 import Loader from "../../common/Loader";
 import Nostate from "../../common/Nostate";
+import { toast } from "react-toastify";
 
 const Show = () => {
   // Page Title
@@ -36,6 +37,31 @@ const Show = () => {
       });
   };
 
+  const deleteCategory = async (id) => {
+    if (confirm("Are you sure you want to delete?")) {
+      const res = await fetch(`${apiUrl}/categories/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.status == 200) {
+            const newCategories = categories.filter(
+              (category) => category.id != id
+            );
+            setCategories(newCategories);
+            toast.success(result.message);
+          } else {
+            console.log("Something Went Wrong!");
+          }
+        });
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -57,7 +83,9 @@ const Show = () => {
             <div className="card shadow">
               <div className="card-body p-4">
                 {loader == true && <Loader />}
-                {loader == false && categories.length == 0 && <Nostate text="Categories Not Found!"/>}
+                {loader == false && categories.length == 0 && (
+                  <Nostate text="Categories Not Found!" />
+                )}
                 {categories && categories.length > 0 && (
                   <table className="table table-hover">
                     <thead>
@@ -86,7 +114,10 @@ const Show = () => {
                               )}
                             </td>
                             <td>
-                              <Link to={`/admin/categories/edit/${category.id}`} className="text-primary">
+                              <Link
+                                to={`/admin/categories/edit/${category.id}`}
+                                className="text-primary"
+                              >
                                 <svg
                                   stroke="currentColor"
                                   fill="currentColor"
@@ -100,7 +131,7 @@ const Show = () => {
                                 </svg>
                               </Link>
 
-                              <Link className="text-danger ms-2">
+                              <Link onClick={() => deleteCategory(category.id)} className="text-danger ms-2">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="1em"
