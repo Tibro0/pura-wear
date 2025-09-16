@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import Layout from '../../common/Layout'
-import Sidebar from '../../common/Sidebar'
+import React, { useEffect, useState } from "react";
+import Layout from "../../common/Layout";
+import Sidebar from "../../common/Sidebar";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from 'react-router-dom'
-import { adminToken, apiUrl } from '../../common/http';
-import { toast } from 'react-toastify';
+import { Link, useNavigate } from "react-router-dom";
+import { adminToken, apiUrl } from "../../common/http";
+import { toast } from "react-toastify";
 
 const Create = () => {
   // Page Title
-    useEffect(() => {
-      document.title = "Pura Wear | Create Brand";
-    }, []);
+  useEffect(() => {
+    document.title = "Pura Wear | Create Brand";
+  }, []);
 
-    const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -112,7 +112,7 @@ const Create = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;
