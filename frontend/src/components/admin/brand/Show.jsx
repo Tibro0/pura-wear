@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { adminToken, apiUrl } from "../../common/http";
 import Loader from "../../common/Loader";
 import Nostate from "../../common/Nostate";
+import { toast } from "react-toastify";
 
 const Show = () => {
   // Page Title
@@ -50,10 +51,10 @@ const Show = () => {
         .then((res) => res.json())
         .then((result) => {
           if (result.status == 200) {
-            const newCategories = categories.filter(
-              (category) => category.id != id
+            const newBrands = brands.filter(
+              (brand) => brand.id != id
             );
-            setCategories(newCategories);
+            setBrands(newBrands);
             toast.success(result.message);
           } else {
             console.log("Something Went Wrong!");
@@ -99,7 +100,7 @@ const Show = () => {
                     <tbody>
                       {brands.map((brand) => {
                         return (
-                          <tr>
+                          <tr key={`brand-${brand.id}`}>
                             <td>{brand.id}</td>
                             <td>{brand.name}</td>
                             <td>

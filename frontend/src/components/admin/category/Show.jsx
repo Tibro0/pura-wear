@@ -99,7 +99,7 @@ const Show = () => {
                     <tbody>
                       {categories.map((category) => {
                         return (
-                          <tr>
+                          <tr key={`category-${category.id}`}>
                             <td>{category.id}</td>
                             <td>{category.name}</td>
                             <td>
