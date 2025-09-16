@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,27 @@ class SizeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Size::insert([
+            [
+                'name'=> 'S',
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+            [
+                'name'=> 'M',
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+            [
+                'name'=> 'L',
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+            [
+                'name'=> 'XL',
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ],
+        ]);
     }
 }
