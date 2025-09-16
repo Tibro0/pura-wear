@@ -14,7 +14,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'DESC')->get();
+        $brands = Brand::orderBy('id', 'DESC')->get();
         return response()->json([
             'status' => 200,
             'data' => $brands
