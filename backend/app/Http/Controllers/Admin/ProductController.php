@@ -79,7 +79,52 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::find($id);
+
+        if ($product == null) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Product Not Found.'
+            ], 404);
+        }
+
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'price' => 'required|numeric',
+            'category' => 'required|integer',
+            'sku' => 'required|unique:products,sku,' . $id,
+            'status' => 'required',
+            'is_featured' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        // Update the Product
+        $product->title = $request->title;
+        $product->price = $request->price;
+        $product->compare_price = $request->compare_price;
+        $product->description = $request->description;
+        $product->short_description = $request->short_description;
+        // $product->image = '';
+        $product->category_id = $request->category;
+        $product->brand_id  = $request->brand;
+        $product->qty  = $request->qty;
+        $product->sku = $request->sku;
+        $product->barcode = $request->barcode;
+        $product->status = $request->status;
+        $product->is_featured = $request->is_featured;
+        $product->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Product has been Updated Successfully!',
+        ], 200);
     }
 
     /**
