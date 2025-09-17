@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\SizeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/admin/login', [AuthController::class, 'authenticate']);
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/admin/login', 'authenticate');
+});
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
