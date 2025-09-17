@@ -15,6 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('id', 'DESC')->get();
+
         return response()->json([
             'status' => 200,
             'data' => $products,
@@ -71,7 +72,19 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = Product::find($id);
+
+        if ($product == null) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Product Not Found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $product,
+        ], 200);
     }
 
     /**
