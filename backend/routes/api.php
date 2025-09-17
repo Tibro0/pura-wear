@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\TempImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Brands All Route
     Route::resource('brands', BrandController::class);
     // Sizes All Route
-    Route::controller(SizeController::class)->group(function(){
+    Route::controller(SizeController::class)->group(function () {
         Route::get('sizes', 'index');
     });
     // Products All Route
     Route::resource('products', ProductController::class);
+    // Temp Image All Route
+    Route::controller(TempImageController::class)->group(function () {
+        Route::post('temp-images', 'store');
+    });
 });
