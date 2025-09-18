@@ -45,8 +45,8 @@ const Create = () => {
         } else {
           const formErrors = result.errors;
           Object.keys(formErrors).forEach((field) => {
-            setError(field, {message:formErrors[field][0]});
-          })
+            setError(field, { message: formErrors[field][0] });
+          });
         }
       });
   };

@@ -27,7 +27,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required'
+            'name' => 'required|unique:brands,name'
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +87,7 @@ class BrandController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required'
+            'name' => 'required|unique:brands,name,'.$id
         ]);
 
         if ($validator->fails()) {

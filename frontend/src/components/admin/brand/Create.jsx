@@ -19,6 +19,7 @@ const Create = () => {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm();
 
@@ -40,7 +41,10 @@ const Create = () => {
           toast.success(result.message);
           navigate("/admin/brands");
         } else {
-          console.log("Something Went Wrong!");
+          const formErrors = result.errors;
+          Object.keys(formErrors).forEach((field) => {
+            setError(field, { message: formErrors[field][0] });
+          });
         }
       });
   };

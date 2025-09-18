@@ -131,7 +131,10 @@ const Show = () => {
                                 </svg>
                               </Link>
 
-                              <Link onClick={() => deleteCategory(category.id)} className="text-danger ms-2">
+                              <Link
+                                onClick={() => deleteCategory(category.id)}
+                                className="text-danger ms-2"
+                              >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="1em"
