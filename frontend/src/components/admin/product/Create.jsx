@@ -123,7 +123,7 @@ const Create = ({ placeholder }) => {
                       placeholder="Title"
                     />
                     {errors.title && (
-                      <p className="invalid-feedback">{errors.name.message}</p>
+                      <p className="invalid-feedback">{errors.title.message}</p>
                     )}
                   </div>
 
@@ -133,7 +133,14 @@ const Create = ({ placeholder }) => {
                         <label htmlFor="" className="form-label">
                           Category
                         </label>
-                        <select className="form-select">
+                        <select
+                          {...register("category", {
+                            required: "Please Select a Category.",
+                          })}
+                          className={`form-select ${
+                            errors.title && "is-invalid"
+                          }`}
+                        >
                           <option value="">Select a Category</option>
                           {categories &&
                             categories.map((category) => {
@@ -147,6 +154,11 @@ const Create = ({ placeholder }) => {
                               );
                             })}
                         </select>
+                        {errors.category && (
+                          <p className="invalid-feedback">
+                            {errors.category.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -204,10 +216,18 @@ const Create = ({ placeholder }) => {
                           Price
                         </label>
                         <input
+                        {...register("price", {
+                            required: "The Price Filed is Required.",
+                          })}
+                          className={`form-control ${
+                            errors.price && "is-invalid"
+                          }`}
                           type="text"
-                          className="form-control"
                           placeholder="Price"
                         />
+                        {errors.price && (
+                      <p className="invalid-feedback">{errors.price.message}</p>
+                    )}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -232,10 +252,18 @@ const Create = ({ placeholder }) => {
                           SKU
                         </label>
                         <input
+                        {...register("sku", {
+                            required: "The SKU Filed is Required.",
+                          })}
+                          className={`form-control ${
+                            errors.sku && "is-invalid"
+                          }`}
                           type="text"
-                          className="form-control"
                           placeholder="SKU"
                         />
+                        {errors.sku && (
+                      <p className="invalid-feedback">{errors.sku.message}</p>
+                    )}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -290,6 +318,28 @@ const Create = ({ placeholder }) => {
                       </div>
                     </div>
                   </div>
+
+                  <div className="mb-3">
+                        <label htmlFor="" className="form-label">
+                          Featured
+                        </label>
+                        <select
+                          {...register("is_featured", {
+                            required: "Please Select a Featured.",
+                          })}
+                          className={`form-select ${
+                            errors.is_featured && "is-invalid"
+                          }`}
+                        >
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                        {errors.is_featured && (
+                          <p className="invalid-feedback">
+                            {errors.is_featured.message}
+                          </p>
+                        )}
+                      </div>
 
                   <h3 className="py-3 border-bottom mb-3">Gallery</h3>
                   <div className="mb-3">
