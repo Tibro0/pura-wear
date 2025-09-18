@@ -32,10 +32,12 @@ const Create = ({ placeholder }) => {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors },
   } = useForm();
 
   const saveProduct = async (data) => {
+    const fromData = {...data, "description" : content}
     setDisable(true);
     const res = await fetch(`${apiUrl}/products`, {
       method: "POST",
@@ -44,16 +46,19 @@ const Create = ({ placeholder }) => {
         Accept: "application/json",
         Authorization: `Bearer ${adminToken()}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(fromData),
     })
       .then((res) => res.json())
       .then((result) => {
         setDisable(false);
         if (result.status == 200) {
           toast.success(result.message);
-          navigate("/admin/categories");
+          navigate("/admin/products");
         } else {
-          console.log("Something Went Wrong!");
+          const formErrors = result.errors;
+          Object.keys(formErrors).forEach((field) => {
+            setError(field, {message:formErrors[field][0]});
+          })
         }
       });
   };
@@ -166,7 +171,9 @@ const Create = ({ placeholder }) => {
                         <label htmlFor="" className="form-label">
                           Brand
                         </label>
-                        <select className="form-select">
+                        <select
+                        {...register("brand")}
+                        className="form-select">
                           <option value="">Select a Brand</option>
                           {brands &&
                             brands.map((brand) => {
@@ -189,6 +196,7 @@ const Create = ({ placeholder }) => {
                       Short Description
                     </label>
                     <textarea
+                    {...register("short_description")}
                       className="form-control"
                       placeholder="Short Description"
                       rows={4}
@@ -236,6 +244,7 @@ const Create = ({ placeholder }) => {
                           Discounted Price
                         </label>
                         <input
+                        {...register("compare_price")}
                           type="text"
                           className="form-control"
                           placeholder="Discounted Price"
@@ -272,6 +281,7 @@ const Create = ({ placeholder }) => {
                           Barcode
                         </label>
                         <input
+                        {...register("barcode")}
                           type="text"
                           className="form-control"
                           placeholder="Barcode"
@@ -287,6 +297,7 @@ const Create = ({ placeholder }) => {
                           Qty
                         </label>
                         <input
+                        {...register("qty")}
                           type="text"
                           className="form-control"
                           placeholder="Qty"
