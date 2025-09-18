@@ -22,6 +22,7 @@ const Edit = () => {
     handleSubmit,
     watch,
     reset,
+    setError,
     formState: { errors },
   } = useForm({
     defaultValues: async () => {
@@ -35,14 +36,14 @@ const Edit = () => {
       })
         .then((res) => res.json())
         .then((result) => {
-            console.log(result);
-            
+          console.log(result);
+
           if (result.status == 200) {
             setCategory(result.data);
             reset({
-                name:result.data.name,
-                status:result.data.status,
-            })
+              name: result.data.name,
+              status: result.data.status,
+            });
           } else {
             console.log("Something Went Wrong!");
           }
@@ -68,7 +69,10 @@ const Edit = () => {
           toast.success(result.message);
           navigate("/admin/categories");
         } else {
-          console.log("Something Went Wrong!");
+          const formErrors = result.errors;
+          Object.keys(formErrors).forEach((field) => {
+            setError(field, { message: formErrors[field][0] });
+          });
         }
       });
   };
