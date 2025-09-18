@@ -18,6 +18,8 @@ const Create = ({ placeholder }) => {
   const [disable, setDisable] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
+  const [gallery, setGallery] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
   const navigate = useNavigate();
 
   const config = useMemo(
@@ -37,7 +39,7 @@ const Create = ({ placeholder }) => {
   } = useForm();
 
   const saveProduct = async (data) => {
-    const fromData = {...data, "description" : content}
+    const fromData = { ...data, description: content, gallery: gallery };
     setDisable(true);
     const res = await fetch(`${apiUrl}/products`, {
       method: "POST",
@@ -57,8 +59,8 @@ const Create = ({ placeholder }) => {
         } else {
           const formErrors = result.errors;
           Object.keys(formErrors).forEach((field) => {
-            setError(field, {message:formErrors[field][0]});
-          })
+            setError(field, { message: formErrors[field][0] });
+          });
         }
       });
   };
@@ -91,6 +93,38 @@ const Create = ({ placeholder }) => {
       .then((result) => {
         setBrands(result.data);
       });
+  };
+
+  const handleFile = async (e) => {
+    const formData = new FormData();
+    const file = e.target.files[0];
+    formData.append("image", file);
+    setDisable(true);
+
+    const res = await fetch(`${apiUrl}/temp-images`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken()}`,
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        gallery.push(result.data.id);
+        setGallery(gallery);
+
+        galleryImages.push(result.data.image_url);
+        setGalleryImages(galleryImages);
+        setDisable(false);
+        e.target.value = "";
+      });
+  };
+
+  const deleteImage = (image) => {
+    const newGallery = galleryImages.filter((gallery) => gallery != image);
+    setGalleryImages(newGallery);
   };
 
   useEffect(() => {
@@ -171,9 +205,7 @@ const Create = ({ placeholder }) => {
                         <label htmlFor="" className="form-label">
                           Brand
                         </label>
-                        <select
-                        {...register("brand")}
-                        className="form-select">
+                        <select {...register("brand")} className="form-select">
                           <option value="">Select a Brand</option>
                           {brands &&
                             brands.map((brand) => {
@@ -196,7 +228,7 @@ const Create = ({ placeholder }) => {
                       Short Description
                     </label>
                     <textarea
-                    {...register("short_description")}
+                      {...register("short_description")}
                       className="form-control"
                       placeholder="Short Description"
                       rows={4}
@@ -211,8 +243,8 @@ const Create = ({ placeholder }) => {
                       ref={editor}
                       value={content}
                       config={config}
-                      tabIndex={1} // tabIndex of textarea
-                      onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                      tabIndex={1}
+                      onBlur={(newContent) => setContent(newContent)}
                     />
                   </div>
 
@@ -224,7 +256,7 @@ const Create = ({ placeholder }) => {
                           Price
                         </label>
                         <input
-                        {...register("price", {
+                          {...register("price", {
                             required: "The Price Filed is Required.",
                           })}
                           className={`form-control ${
@@ -234,8 +266,10 @@ const Create = ({ placeholder }) => {
                           placeholder="Price"
                         />
                         {errors.price && (
-                      <p className="invalid-feedback">{errors.price.message}</p>
-                    )}
+                          <p className="invalid-feedback">
+                            {errors.price.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -244,7 +278,7 @@ const Create = ({ placeholder }) => {
                           Discounted Price
                         </label>
                         <input
-                        {...register("compare_price")}
+                          {...register("compare_price")}
                           type="text"
                           className="form-control"
                           placeholder="Discounted Price"
@@ -261,7 +295,7 @@ const Create = ({ placeholder }) => {
                           SKU
                         </label>
                         <input
-                        {...register("sku", {
+                          {...register("sku", {
                             required: "The SKU Filed is Required.",
                           })}
                           className={`form-control ${
@@ -271,8 +305,10 @@ const Create = ({ placeholder }) => {
                           placeholder="SKU"
                         />
                         {errors.sku && (
-                      <p className="invalid-feedback">{errors.sku.message}</p>
-                    )}
+                          <p className="invalid-feedback">
+                            {errors.sku.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -281,7 +317,7 @@ const Create = ({ placeholder }) => {
                           Barcode
                         </label>
                         <input
-                        {...register("barcode")}
+                          {...register("barcode")}
                           type="text"
                           className="form-control"
                           placeholder="Barcode"
@@ -297,7 +333,7 @@ const Create = ({ placeholder }) => {
                           Qty
                         </label>
                         <input
-                        {...register("qty")}
+                          {...register("qty")}
                           type="text"
                           className="form-control"
                           placeholder="Qty"
@@ -331,33 +367,57 @@ const Create = ({ placeholder }) => {
                   </div>
 
                   <div className="mb-3">
-                        <label htmlFor="" className="form-label">
-                          Featured
-                        </label>
-                        <select
-                          {...register("is_featured", {
-                            required: "Please Select a Featured.",
-                          })}
-                          className={`form-select ${
-                            errors.is_featured && "is-invalid"
-                          }`}
-                        >
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
-                        </select>
-                        {errors.is_featured && (
-                          <p className="invalid-feedback">
-                            {errors.is_featured.message}
-                          </p>
-                        )}
-                      </div>
+                    <label htmlFor="" className="form-label">
+                      Featured
+                    </label>
+                    <select
+                      {...register("is_featured", {
+                        required: "Please Select a Featured.",
+                      })}
+                      className={`form-select ${
+                        errors.is_featured && "is-invalid"
+                      }`}
+                    >
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                    {errors.is_featured && (
+                      <p className="invalid-feedback">
+                        {errors.is_featured.message}
+                      </p>
+                    )}
+                  </div>
 
                   <h3 className="py-3 border-bottom mb-3">Gallery</h3>
                   <div className="mb-3">
                     <label htmlFor="" className="form-label">
                       Image
                     </label>
-                    <input type="file" className="form-control" />
+                    <input
+                      onChange={handleFile}
+                      type="file"
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <div className="row">
+                      {galleryImages &&
+                        galleryImages.map((image, index) => {
+                          return (
+                            <div className="col-md-3" key={`image-${index}`}>
+                              <div className="card shadow">
+                                <img src={image} className="w-100" />
+                                <button
+                                  className="btn btn-danger"
+                                  onClick={() => deleteImage(image)}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
               </div>
