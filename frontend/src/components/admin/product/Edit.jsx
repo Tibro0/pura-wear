@@ -196,6 +196,31 @@ const Edit = ({ placeholder }) => {
       });
   };
 
+  const deleteImage = async (id) => {
+    if (confirm("Are You Sure You Want To Delete Image?")) {
+      const res = await fetch(`${apiUrl}/delete-product-image/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.status == 200) {
+            const newProductImages = productImages.filter(
+              (productImage) => productImage.id != id
+            );
+            setProductImages(newProductImages);
+            toast.success(result.message);
+          } else {
+            toast.error(result.message);
+          }
+        });
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
     fetchBrands();
@@ -521,13 +546,15 @@ const Edit = ({ placeholder }) => {
                                 />
                               </div>
                               <button
+                                type="button"
                                 className="btn btn-danger mt-3 w-100"
-                                onClick={() => deleteImage(image)}
+                                onClick={() => deleteImage(productImage.id)}
                               >
                                 Delete
                               </button>
 
                               <button
+                                type="button"
                                 className="btn btn-secondary mt-3 w-100"
                                 onClick={() => changeImage(productImage.image)}
                               >
