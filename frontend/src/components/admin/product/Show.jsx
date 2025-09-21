@@ -5,6 +5,7 @@ import Sidebar from "../../common/Sidebar";
 import { adminToken, apiUrl } from "../../common/http";
 import Loader from "../../common/Loader";
 import Nostate from "../../common/Nostate";
+import { toast } from "react-toastify";
 
 const Show = () => {
   // Page Title
@@ -34,6 +35,31 @@ const Show = () => {
           console.log("Something Went Wrong!");
         }
       });
+  };
+
+  const deleteProduct = async (id) => {
+    if (confirm("Are You Sure You Want To Delete?")) {
+      const res = await fetch(`${apiUrl}/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.status == 200) {
+            const newProducts = products.filter(
+              (product) => product.id != id
+            );
+            setProducts(newProducts);
+            toast.success(result.message);
+          } else {
+            toast.error(result.message);
+          }
+        });
+    }
   };
 
   useEffect(() => {
