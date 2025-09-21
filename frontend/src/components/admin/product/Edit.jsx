@@ -18,9 +18,9 @@ const Edit = ({ placeholder }) => {
   const [disable, setDisable] = useState(false);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-  // const [gallery, setGallery] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [sizesChecked, setSizesChecked] = useState([]);
   const [productImages, setProductImages] = useState([]);
-  // const [galleryImages, setGalleryImages] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
 
@@ -52,6 +52,7 @@ const Edit = ({ placeholder }) => {
         .then((res) => res.json())
         .then((result) => {
           setProductImages(result.data.product_images);
+          setSizesChecked(result.productSizes);
           reset({
             title: result.data.title,
             category: result.data.category_id,
@@ -73,10 +74,10 @@ const Edit = ({ placeholder }) => {
   });
 
   const saveProduct = async (data) => {
-    const fromData = { ...data, description: content, gallery: gallery };
+    const fromData = { ...data, description: content };
     setDisable(true);
-    const res = await fetch(`${apiUrl}/products`, {
-      method: "POST",
+    const res = await fetch(`${apiUrl}/products/${params.id}`, {
+      method: "PUT",
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
@@ -129,6 +130,21 @@ const Edit = ({ placeholder }) => {
       });
   };
 
+  const fetchSizes = async () => {
+    const res = await fetch(`${apiUrl}/sizes`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken()}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setSizes(result.data);
+      });
+  };
+
   const handleFile = async (e) => {
     const formData = new FormData();
     const file = e.target.files[0];
@@ -158,14 +174,17 @@ const Edit = ({ placeholder }) => {
   };
 
   const changeImage = async (image) => {
-    const res = await fetch(`${apiUrl}/change-product-default-image?product_id=${params.id}&image=${image}`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${adminToken()}`,
-      },
-    })
+    const res = await fetch(
+      `${apiUrl}/change-product-default-image?product_id=${params.id}&image=${image}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
         if (result.status == 200) {
@@ -180,6 +199,7 @@ const Edit = ({ placeholder }) => {
   useEffect(() => {
     fetchCategories();
     fetchBrands();
+    fetchSizes();
   }, []);
 
   return (
@@ -438,6 +458,45 @@ const Edit = ({ placeholder }) => {
                     )}
                   </div>
 
+                  <div className="mb-3">
+                    <label htmlFor="" className="form-label">
+                      Sizes
+                    </label>
+                    {sizes &&
+                      sizes.map((size) => {
+                        return (
+                          <div
+                            className="form-check-inline ps-2"
+                            key={`size-${size.id}`}
+                          >
+                            <input
+                              {...register("sizes")}
+                              checked={sizesChecked.includes(size.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSizesChecked([...sizesChecked, size.id]);
+                                } else {
+                                  setSizesChecked(
+                                    sizesChecked.filter((sid) => size.id != sid)
+                                  );
+                                }
+                              }}
+                              className="form-check-input"
+                              type="checkbox"
+                              value={size.id}
+                              id={`size-${size.id}`}
+                            />
+                            <label
+                              className="form-check-label ps-2"
+                              htmlFor={`size-${size.id}`}
+                            >
+                              {size.name}
+                            </label>
+                          </div>
+                        );
+                      })}
+                  </div>
+
                   <h3 className="py-3 border-bottom mb-3">Gallery</h3>
                   <div className="mb-3">
                     <label htmlFor="" className="form-label">
@@ -486,7 +545,7 @@ const Edit = ({ placeholder }) => {
                 type="submit"
                 className="btn btn-primary mt-3 mb-5"
               >
-                Create
+                Update
               </button>
             </form>
           </div>
