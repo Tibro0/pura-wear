@@ -157,6 +157,26 @@ const Edit = ({ placeholder }) => {
       });
   };
 
+  const changeImage = async (image) => {
+    const res = await fetch(`${apiUrl}/change-product-default-image?product_id=${params.id}&image=${image}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken()}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status == 200) {
+          toast.success(result.message);
+        } else {
+          console.log("Something Went Wrong");
+        }
+        // setBrands(result.data);
+      });
+  };
+
   useEffect(() => {
     fetchCategories();
     fetchBrands();
@@ -446,6 +466,13 @@ const Edit = ({ placeholder }) => {
                                 onClick={() => deleteImage(image)}
                               >
                                 Delete
+                              </button>
+
+                              <button
+                                className="btn btn-secondary mt-3 w-100"
+                                onClick={() => changeImage(productImage.image)}
+                              >
+                                Set as Default
                               </button>
                             </div>
                           );
