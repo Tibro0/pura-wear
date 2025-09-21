@@ -407,13 +407,13 @@ const Create = ({ placeholder }) => {
                             <div className="col-md-3" key={`image-${index}`}>
                               <div className="card shadow">
                                 <img src={image} className="w-100" />
-                                <button
-                                  className="btn btn-danger"
+                              </div>
+                              <button
+                                  className="btn btn-danger mt-3 w-100"
                                   onClick={() => deleteImage(image)}
                                 >
                                   Delete
                                 </button>
-                              </div>
                             </div>
                           );
                         })}
