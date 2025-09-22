@@ -14,6 +14,7 @@ const Shop = () => {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
   const [catChecked, setCatChecked] = useState([]);
+  const [brandChecked, setBrandChecked] = useState([]);
 
   const fetchProducts = () => {
     let search = [];
@@ -21,6 +22,10 @@ const Shop = () => {
 
     if (catChecked.length > 0) {
       search.push(["category", catChecked]);
+    }
+
+    if (brandChecked.length > 0) {
+      search.push(["brand", brandChecked]);
     }
 
     if (search.length > 0) {
@@ -89,11 +94,20 @@ const Shop = () => {
     }
   };
 
+  const handleBrand = (e) => {
+    const { checked, value } = e.target;
+    if (checked) {
+      setBrandChecked((pre) => [...pre, value]);
+    } else {
+      setBrandChecked(brandChecked.filter((id) => id != value));
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
     fetchBrands();
     fetchProducts();
-  }, [catChecked]);
+  }, [catChecked, brandChecked]);
 
   return (
     <Layout>
@@ -141,7 +155,11 @@ const Shop = () => {
                     brands.map((brand) => {
                       return (
                         <li className="mb-2" key={`brand-${brand.id}`}>
-                          <input type="checkbox" value={brand.id} />
+                          <input
+                            type="checkbox"
+                            value={brand.id}
+                            onClick={handleBrand}
+                          />
                           <label htmlFor="" className="ps-2">
                             {brand.name}
                           </label>
