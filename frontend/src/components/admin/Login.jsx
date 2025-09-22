@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../common/Layout";
 import { useForm } from "react-hook-form";
 import { apiUrl } from "../common/http";
@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { AdminAuthContext } from "../context/AdminAuth";
 
 const Login = () => {
+  // Page Title
+  useEffect(() => {
+    document.title = "Pura Wear | Admin Login";
+  }, []);
+
   const { login } = useContext(AdminAuthContext);
   const {
     register,
