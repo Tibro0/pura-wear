@@ -13,9 +13,21 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
+  const [catChecked, setCatChecked] = useState([]);
 
   const fetchProducts = () => {
-    fetch(`${apiUrl}/get-products`, {
+    let search = [];
+    let params = "";
+
+    if (catChecked.length > 0) {
+      search.push(["category", catChecked]);
+    }
+
+    if (search.length > 0) {
+      params = new URLSearchParams(search);
+    }
+
+    fetch(`${apiUrl}/get-products?${params}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -68,11 +80,20 @@ const Shop = () => {
       });
   };
 
+  const handleCategory = (e) => {
+    const { checked, value } = e.target;
+    if (checked) {
+      setCatChecked((pre) => [...pre, value]);
+    } else {
+      setCatChecked(catChecked.filter((id) => id != value));
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
     fetchBrands();
     fetchProducts();
-  }, []);
+  }, [catChecked]);
 
   return (
     <Layout>
@@ -97,7 +118,11 @@ const Shop = () => {
                     categories.map((category) => {
                       return (
                         <li className="mb-2" key={`category-${category.id}`}>
-                          <input type="checkbox" value={category.id} />
+                          <input
+                            type="checkbox"
+                            value={category.id}
+                            onClick={handleCategory}
+                          />
                           <label htmlFor="" className="ps-2">
                             {category.name}
                           </label>
@@ -132,7 +157,10 @@ const Shop = () => {
               {products &&
                 products.map((product) => {
                   return (
-                    <div className="col-md-4 col-6" key={`product-${product.id}`}>
+                    <div
+                      className="col-md-4 col-6"
+                      key={`product-${product.id}`}
+                    >
                       <div className="product card border-0">
                         <div className="card-img">
                           <Link to="/product">
