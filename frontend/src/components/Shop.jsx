@@ -14,6 +14,24 @@ const Shop = () => {
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
 
+  const fetchProducts = () => {
+    fetch(`${apiUrl}/get-products`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status == 200) {
+          setProducts(result.data);
+        } else {
+          console.log("Something Went Wrong!");
+        }
+      });
+  };
+
   const fetchCategories = () => {
     fetch(`${apiUrl}/get-categories`, {
       method: "GET",
@@ -53,6 +71,7 @@ const Shop = () => {
   useEffect(() => {
     fetchCategories();
     fetchBrands();
+    fetchProducts();
   }, []);
 
   return (
@@ -110,102 +129,35 @@ const Shop = () => {
           </div>
           <div className="col-md-9">
             <div className="row pb-5">
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
+              {products &&
+                products.map((product) => {
+                  return (
+                    <div className="col-md-4 col-6" key={`product-${product.id}`}>
+                      <div className="product card border-0">
+                        <div className="card-img">
+                          <Link to="/product">
+                            {product.image_url == "" ? (
+                              <img src="https://placehold.co/315x362" />
+                            ) : (
+                              <img src={product.image_url} className="w-100" />
+                            )}
+                          </Link>
+                        </div>
+                        <div className="card-body pt-3">
+                          <Link to="/product">{product.title}</Link>
+                          <div className="price">
+                            ${product.price}&nbsp;
+                            {product.compare_price && (
+                              <span className="text-decoration-line-through">
+                                ${product.compare_price}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-6">
-                <div className="product card border-0">
-                  <div className="card-img">
-                    <Link to="/product">
-                      <img src={ProductImg} alt="" className="w-100" />
-                    </Link>
-                  </div>
-                  <div className="card-body pt-3">
-                    <Link to="/product">Red Check Shirt foe Men</Link>
-                    <div className="price">
-                      $50
-                      <span className="text-decoration-line-through">$80</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  );
+                })}
             </div>
           </div>
         </div>
