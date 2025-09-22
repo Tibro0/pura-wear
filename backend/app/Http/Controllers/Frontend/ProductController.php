@@ -10,6 +10,30 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function getProducts(Request $request)
+    {
+        $products = Product::orderBy('id', 'DESC')->where('status', 1);
+
+        // Filter Product By Category
+        if (!empty($request->category)) {
+            $catArray = explode(',', $request->category);
+            $products = $products->whereIn('category_id', $catArray);
+        }
+
+        // Filter Product By Brand
+        if (!empty($request->brand)) {
+            $brandArray = explode(',', $request->brand);
+            $products = $products->whereIn('brand_id', $brandArray);
+        }
+
+        $products = $products->get();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $products,
+        ], 200);
+    }
+
     public function latestProducts()
     {
         $products = Product::orderBy('id', 'DESC')->where('status', 1)->limit(8)->get();

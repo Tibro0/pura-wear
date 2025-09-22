@@ -15,6 +15,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::controller(FrontendProductController::class)->group(function () {
+    Route::get('get-products', 'getProducts');
     Route::get('get-latest-products', 'latestProducts');
     Route::get('get-featured-products', 'featuredProducts');
     Route::get('get-categories', 'getCategories');
