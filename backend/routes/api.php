@@ -17,6 +17,8 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(FrontendProductController::class)->group(function () {
     Route::get('get-latest-products', 'latestProducts');
     Route::get('get-featured-products', 'featuredProducts');
+    Route::get('get-categories', 'getCategories');
+    Route::get('get-brands', 'getBrands');
 });
 
 // Route::get('/user', function (Request $request) {
