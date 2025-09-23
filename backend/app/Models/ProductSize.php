@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductSize extends Model
 {
     protected $guarded = [];
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

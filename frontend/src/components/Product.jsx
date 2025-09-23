@@ -25,14 +25,14 @@ const Product = () => {
         <div className="row">
           <div className="col-md-12">
             <nav aria-label="breadcrumb" className="py-4">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item">
                   <Link to="/">Home</Link>
                 </li>
-                <li class="breadcrumb-item" aria-current="page">
+                <li className="breadcrumb-item" aria-current="page">
                   <Link to="/shop">Shop</Link>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">
+                <li className="breadcrumb-item active" aria-current="page">
                   Dummy Product Title
                 </li>
               </ol>
@@ -50,10 +50,10 @@ const Product = () => {
                     "--swiper-pagination-color": "#000",
                   }}
                   onSwiper={setThumbsSwiper}
-                  loop={true}
+                  loop={false}
                   direction={`vertical`}
                   spaceBetween={10}
-                  slidesPerView={6}
+                  slidesPerView={Math.min(6, 3)}
                   freeMode={true}
                   watchSlidesProgress={true}
                   modules={[FreeMode, Navigation, Thumbs]}

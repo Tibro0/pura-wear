@@ -20,6 +20,7 @@ Route::controller(FrontendProductController::class)->group(function () {
     Route::get('get-featured-products', 'featuredProducts');
     Route::get('get-categories', 'getCategories');
     Route::get('get-brands', 'getBrands');
+    Route::get('get-product/{id}', 'getProduct');
 });
 
 // Route::get('/user', function (Request $request) {
