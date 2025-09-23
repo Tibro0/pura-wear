@@ -35,7 +35,7 @@ const FeaturedProducts = () => {
                 <div className="col-md-3 col-6" key={`product-${product.id}`}>
                   <div className="product card border-0">
                     <div className="card-img">
-                      <Link to="/product">
+                      <Link to={`/product/${product.id}`}>
                         {product.image_url == "" ? (
                           <img src="https://placehold.co/315x362" />
                         ) : (
@@ -44,7 +44,7 @@ const FeaturedProducts = () => {
                       </Link>
                     </div>
                     <div className="card-body pt-3">
-                      <Link to="/product">{product.title}</Link>
+                      <Link to={`/product/${product.id}`}>{product.title}</Link>
                       <div className="price">
                         ${product.price}&nbsp;
                         {product.compare_price && (
