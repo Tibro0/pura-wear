@@ -37,8 +37,8 @@ const Header = () => {
 
       <div className="container">
         <Navbar expand="lg" className="">
-          <Navbar.Brand href="/">
-            <img src={Logo} alt="" width={170} />
+          <Navbar.Brand>
+            <Link to="/"><img src={Logo} alt="" width={170} /></Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">

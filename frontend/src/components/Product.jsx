@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "./common/Layout";
 import { Rating } from "react-simple-star-rating";
 import { Link, useParams } from "react-router-dom";
@@ -15,15 +15,18 @@ import ProductImgOne from "../assets/images/mens/five.jpg";
 import ProductImgTwo from "../assets/images/mens/six.jpg";
 import ProductImgThree from "../assets/images/mens/seven.jpg";
 import { apiUrl } from "./common/http";
+import { CartContext } from "./context/Cart";
+import { toast } from "react-toastify";
 
 const Product = () => {
-
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [rating, setRating] = useState(4);
   const [product, setProduct] = useState([]);
   const [productImages, setProductImages] = useState([]);
   const [productSizes, setProductSizes] = useState([]);
+  const [sizeSelected, setSizeSelected] = useState(null);
   const params = useParams();
+  const { addToCart } = useContext(CartContext);
 
   const fetchProduct = () => {
     fetch(`${apiUrl}/get-product/${params.id}`, {
@@ -43,6 +46,20 @@ const Product = () => {
           console.log("Something Went Wrong!");
         }
       });
+  };
+
+  const handleAddToCart = () => {
+    if (productSizes.length > 0) {
+      if (sizeSelected == null) {
+        toast.error("Please Select a Size.");
+      } else {
+        addToCart(product, sizeSelected);
+        toast.success("Product Successfully Added To Cart.");
+      }
+    } else {
+      addToCart(product, null);
+      toast.success("Product Successfully Added To Cart.");
+    }
   };
 
   useEffect(() => {
@@ -100,7 +117,7 @@ const Product = () => {
                   {productImages &&
                     productImages.map((product_image) => {
                       return (
-                        <SwiperSlide>
+                        <SwiperSlide key={`image-sm-${product_image.id}`}>
                           <div className="content">
                             <img
                               src={product_image.image_url}
@@ -130,7 +147,7 @@ const Product = () => {
                   {productImages &&
                     productImages.map((product_image) => {
                       return (
-                        <SwiperSlide>
+                        <SwiperSlide key={`image-${product_image.id}`}>
                           <div className="content">
                             <img
                               src={product_image.image_url}
@@ -166,7 +183,10 @@ const Product = () => {
                 {productSizes &&
                   productSizes.map((product_size) => {
                     return (
-                      <button className="btn btn-size me-2">
+                      <button
+                        onClick={() => setSizeSelected(product_size.size.name)}
+                        className={`btn btn-size me-2 ${sizeSelected == product_size.size.name ? 'active' : ''}`}
+                      >
                         {product_size.size.name}
                       </button>
                     );
@@ -175,7 +195,10 @@ const Product = () => {
             </div>
 
             <div className="add-to-cart my-4">
-              <button className="btn btn-primary text-uppercase">
+              <button
+                onClick={() => handleAddToCart()}
+                className="btn btn-primary text-uppercase"
+              >
                 Add To Cart
               </button>
             </div>
@@ -197,9 +220,9 @@ const Product = () => {
               className="mb-3"
             >
               <Tab eventKey="description" title="Description">
-                <div dangerouslySetInnerHTML={{__html:product.description}}>
-
-                </div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                ></div>
               </Tab>
               <Tab eventKey="reviews" title="Reviews (10)">
                 Reviews Area
