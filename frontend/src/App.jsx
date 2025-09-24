@@ -5,6 +5,7 @@ import Shop from "./components/Shop";
 import Product from "./components/Product";
 import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
+import Register from "./components/Register";
 import Login from "./components/admin/Login";
 import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./components/admin/Dashboard";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/product/:id" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account/register" element={<Register />} />
 
           <Route path="/admin/login" element={<Login />} />
 

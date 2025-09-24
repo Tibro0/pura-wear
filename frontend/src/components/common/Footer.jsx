@@ -1,5 +1,6 @@
 import React from "react";
 import LogoBlack from "../../assets/images/logo-white.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -34,7 +35,7 @@ const Footer = () => {
                 <a href="#">Login</a>
               </li>
               <li>
-                <a href="#">Register</a>
+                <Link to="/account/register">Register</Link>
               </li>
             </ul>
           </div>

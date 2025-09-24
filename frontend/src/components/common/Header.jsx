@@ -30,7 +30,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchCategories();
-  });
+  },[]);
   return (
     <header className="shadow">
       <div className="bg-dark text-center py-3">
