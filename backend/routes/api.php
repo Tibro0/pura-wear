@@ -25,6 +25,7 @@ Route::controller(FrontendProductController::class)->group(function () {
 
 Route::controller(AccountController::class)->group(function () {
     Route::get('register', 'register');
+    Route::get('login', 'authenticate');
 });
 
 // Route::get('/user', function (Request $request) {
