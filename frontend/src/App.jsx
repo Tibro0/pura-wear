@@ -23,12 +23,15 @@ import { default as EditBrand } from "./components/admin/brand/Edit";
 import { default as ShowProducts } from "./components/admin/product/Show";
 import { default as CreateProduct } from "./components/admin/product/Create";
 import { default as EditProduct } from "./components/admin/product/Edit";
+import Profile from "./components/Profile";
+import { RequireAuth } from "./components/RequireAuth";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+          {/* User Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<Product />} />
@@ -36,9 +39,18 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/register" element={<Register />} />
           <Route path="/account/login" element={<UserLogin />} />
-
           <Route path="/admin/login" element={<Login />} />
 
+          <Route
+            path="/account"
+            element={
+              <RequireAuth>
+                <Profile/>
+              </RequireAuth>
+            }
+          />
+
+          {/* Admin Routs */}
           <Route
             path="/admin/dashboard"
             element={
