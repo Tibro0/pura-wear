@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Register = () => {
   // Page Title
   useEffect(() => {
-    document.title = "Pura Wear | Register";
+    document.title = "Pura Wear | User Register";
   }, []);
 
   const {

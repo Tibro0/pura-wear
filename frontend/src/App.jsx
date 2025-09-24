@@ -31,7 +31,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* User Routes */}
+          {/* All User Routes Start */}
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:id" element={<Product />} />
@@ -49,8 +49,9 @@ function App() {
               </RequireAuth>
             }
           />
+          {/* All User Routes End */}
 
-          {/* Admin Routs */}
+          {/* All Admin Routs Start */}
           <Route
             path="/admin/dashboard"
             element={
@@ -140,6 +141,8 @@ function App() {
             }
           />
           {/* Products Route End */}
+
+          {/* All Admin Routs End */}
         </Routes>
       </BrowserRouter>
 

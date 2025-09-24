@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Layout from './common/Layout'
 import { Link } from 'react-router-dom'
 import UserSidebar from './common/UserSidebar'
 
 const Profile = () => {
+  // Page Title
+    useEffect(() => {
+      document.title = "Pura Wear | User Profile";
+    }, []);
+
   return (
     <Layout>
       <div className="container">

@@ -57,7 +57,7 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="card shadow border-0 login">
             <div className="card-body p-4">
-              <h3>Admin Login</h3>
+              <h3 className="border-bottom pb-3 mb-3 text-center">Admin Login</h3>
               <div className="mb-3">
                 <label htmlFor="" className="form-label">
                   Email
@@ -94,7 +94,7 @@ const Login = () => {
                   <p className="invalid-feedback">{errors.password.message}</p>
                 )}
               </div>
-              <button className="btn btn-secondary">Login</button>
+              <button className="btn btn-secondary w-100">Login</button>
             </div>
           </div>
         </form>

@@ -8,7 +8,7 @@ import { AuthContext } from "./context/Auth";
 const Login = () => {
   // Page Title
   useEffect(() => {
-    document.title = "Pura Wear | Login";
+    document.title = "Pura Wear | User Login";
   }, []);
 
   const {
