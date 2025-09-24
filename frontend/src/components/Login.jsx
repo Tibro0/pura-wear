@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "./common/Layout";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUrl } from "./common/http";
-import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { AuthContext } from "./context/Auth";
 
-const Register = () => {
+const Login = () => {
   // Page Title
   useEffect(() => {
-    document.title = "Pura Wear | Register";
+    document.title = "Pura Wear | Login";
   }, []);
 
   const {
@@ -19,10 +19,12 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const res = await fetch(`${apiUrl}/register`, {
+    const res = await fetch(`${apiUrl}/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -31,16 +33,17 @@ const Register = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-
         if (result.status == 200) {
-          toast.success(result.message);
-          navigate("/account/login");
+          const userInfo = {
+            token: result.token,
+            id: result.id,
+            name: result.name,
+          };
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
+          login(userInfo);
+          navigate("/account/dashboard");
         } else {
-          const formErrors = result.errors;
-          Object.keys(formErrors).forEach((field) => {
-            setError(field, { message: formErrors[field][0] });
-          });
+          toast.error(result.message);
         }
       });
   };
@@ -51,24 +54,7 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="card shadow border-0 login">
             <div className="card-body p-4">
-              <h3 className="border-bottom pb-3 mb-3 text-center">Register</h3>
-
-              <div className="mb-3">
-                <label htmlFor="" className="form-label">
-                  Name
-                </label>
-                <input
-                  {...register("name", {
-                    required: "The name field is required",
-                  })}
-                  type="text"
-                  className={`form-control ${errors.name && "is-invalid"}`}
-                  placeholder="Name"
-                />
-                {errors.name && (
-                  <p className="invalid-feedback">{errors.name.message}</p>
-                )}
-              </div>
+              <h3 className="border-bottom pb-3 mb-3 text-center">Login</h3>
 
               <div className="mb-3">
                 <label htmlFor="" className="form-label">
@@ -107,9 +93,10 @@ const Register = () => {
                   <p className="invalid-feedback">{errors.password.message}</p>
                 )}
               </div>
-              <button className="btn btn-secondary w-100">Register</button>
+              <button className="btn btn-secondary w-100">Login</button>
               <div className="d-flex justify-content-center pt-4 pb-2">
-                Already Have A Account ? &nbsp;<Link to="/account/login">Login</Link>
+                Don't Have a Account ? &nbsp;
+                <Link to="/account/register">Register</Link>
               </div>
             </div>
           </div>
@@ -119,4 +106,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
