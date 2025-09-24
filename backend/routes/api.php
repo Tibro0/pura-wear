@@ -6,8 +6,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TempImageController;
+use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -21,6 +21,10 @@ Route::controller(FrontendProductController::class)->group(function () {
     Route::get('get-categories', 'getCategories');
     Route::get('get-brands', 'getBrands');
     Route::get('get-product/{id}', 'getProduct');
+});
+
+Route::controller(AccountController::class)->group(function () {
+    Route::get('register', 'register');
 });
 
 // Route::get('/user', function (Request $request) {
