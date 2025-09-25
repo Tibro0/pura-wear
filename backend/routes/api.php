@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum', 'checkAdminRole']], function () {
     // Categories All Route
     Route::resource('categories', CategoryController::class);
     // Brands All Route
