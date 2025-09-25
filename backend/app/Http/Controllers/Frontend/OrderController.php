@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Http\Request;
+
+class OrderController extends Controller
+{
+    public function saveOrder(Request $request)
+    {
+        if (!empty($request->cart)) {
+            // save order in DB
+            $order = new Order();
+            $order->name = $request->name;
+            $order->email = $request->email;
+            $order->mobile = $request->mobile;
+            $order->address = $request->address;
+            $order->city = $request->city;
+            $order->state = $request->state;
+            $order->zip = $request->zip;
+            $order->grand_total = $request->grand_total;
+            $order->subtotal = $request->sub_total;
+            $order->discount = $request->discount;
+            $order->shipping = $request->shipping;
+            $order->payment_status = $request->payment_status;
+            $order->status = $request->status;
+            $order->user_id  = $request->user()->id;
+            $order->save();
+
+            // save orderItem in DB
+            foreach ($request->cart as $item) {
+                $orderItem = new OrderItem();
+                $orderItem->order_id = $order->id;
+                $orderItem->price = $item['qty'] * $item['price'];
+                $orderItem->unit_price = $item['price'];
+                $orderItem->qty = $item['qty'];
+                $orderItem->product_id = $item['product_id'];
+                $orderItem->size = $item['size'];
+                $orderItem->name = $item['name'];
+                $orderItem->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'You Have Successfully Placed Your Order.',
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Your Cart Is Empty.',
+            ], 400);
+        }
+    }
+}
