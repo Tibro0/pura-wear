@@ -39,14 +39,14 @@ class OrderController extends Controller
                 $orderItem->qty = $item['qty'];
                 $orderItem->product_id = $item['product_id'];
                 $orderItem->size = $item['size'];
-                $orderItem->name = $item['name'];
+                $orderItem->name = $item['title'];
                 $orderItem->save();
-
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'You Have Successfully Placed Your Order.',
-                ], 200);
             }
+            return response()->json([
+                'status' => 200,
+                'id' => $order->id,
+                'message' => 'You Have Successfully Placed Your Order.',
+            ], 200);
         } else {
             return response()->json([
                 'status' => 400,
