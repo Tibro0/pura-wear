@@ -29,7 +29,7 @@ Route::controller(AccountController::class)->group(function () {
     Route::post('login', 'authenticate');
 });
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum', 'checkUserRole']], function () {
     Route::controller(OrderController::class)->group(function () {
         Route::post('save-order', 'saveOrder');
     });
