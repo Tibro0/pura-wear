@@ -3,6 +3,8 @@ import Layout from "../../common/Layout";
 import { Link } from "react-router-dom";
 import Sidebar from "../../common/Sidebar";
 import { adminToken, apiUrl } from "../../common/http";
+import Loader from "../../common/Loader";
+import Nostate from "../../common/Nostate";
 
 const ShowOrders = () => {
   // Page Title
@@ -52,59 +54,75 @@ const ShowOrders = () => {
             <Sidebar />
           </div>
           <div className="col-md-9">
-            <div className="card shadow">
+            <div className="card shadow mb-5">
               <div className="card-body p-4">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Customer</th>
-                      <th>Email</th>
-                      <th>Amount</th>
-                      <th>Date</th>
-                      <th>Payment</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => {
-                      return (
-                        <tr key={order.id}>
-                          <td>
-                            <Link to={`/admin/orders/${order.id}`}>{order.id}</Link>
+                {loader == true && <Loader />}
+                {loader == false && orders.length == 0 && (
+                  <Nostate text="Orders Not Found!" />
+                )}
+                {orders && orders.length > 0 && (
+                  <table className="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map((order) => {
+                        return (
+                          <tr key={order.id}>
+                            <td>
+                              <Link to={`/admin/orders/${order.id}`}>
+                                {order.id}
+                              </Link>
                             </td>
-                          <td>{order.name}</td>
-                          <td>{order.email}</td>
-                          <td>${order.grand_total}</td>
-                          <td>{order.created_at}</td>
-                          <td>
-                            {order.payment_status == "paid" ? (
-                              <span className="badge bg-success">Paid</span>
-                            ) : (
-                              <span className="badge bg-danger">Not Paid</span>
-                            )}
-                          </td>
-                          <td>
-                            {order.status == "pending" && (
-                              <span className="badge bg-warning">Pending</span>
-                            )}
-                            {order.status == "shipped" && (
-                              <span className="badge bg-warning">Shipped</span>
-                            )}
-                            {order.status == "delivered" && (
-                              <span className="badge bg-success">
-                                Delivered
-                              </span>
-                            )}
-                            {order.status == "cancelled" && (
-                              <span className="badge bg-danger">Cancelled</span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            <td>{order.name}</td>
+                            <td>{order.email}</td>
+                            <td>${order.grand_total}</td>
+                            <td>{order.created_at}</td>
+                            <td>
+                              {order.payment_status == "paid" ? (
+                                <span className="badge bg-success">Paid</span>
+                              ) : (
+                                <span className="badge bg-danger">
+                                  Not Paid
+                                </span>
+                              )}
+                            </td>
+                            <td>
+                              {order.status == "pending" && (
+                                <span className="badge bg-warning">
+                                  Pending
+                                </span>
+                              )}
+                              {order.status == "shipped" && (
+                                <span className="badge bg-warning">
+                                  Shipped
+                                </span>
+                              )}
+                              {order.status == "delivered" && (
+                                <span className="badge bg-success">
+                                  Delivered
+                                </span>
+                              )}
+                              {order.status == "cancelled" && (
+                                <span className="badge bg-danger">
+                                  Cancelled
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
           </div>
