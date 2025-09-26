@@ -69,8 +69,10 @@ const ShowOrders = () => {
                   <tbody>
                     {orders.map((order) => {
                       return (
-                        <tr>
-                          <td>{order.id}</td>
+                        <tr key={order.id}>
+                          <td>
+                            <Link to={`/admin/orders/${order.id}`}>{order.id}</Link>
+                            </td>
                           <td>{order.name}</td>
                           <td>{order.email}</td>
                           <td>${order.grand_total}</td>
