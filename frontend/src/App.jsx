@@ -26,6 +26,7 @@ import { default as EditProduct } from "./components/admin/product/Edit";
 import Profile from "./components/Profile";
 import { RequireAuth } from "./components/RequireAuth";
 import Confirmation from "./components/Confirmation";
+import ShowOrders from "./components/admin/orders/ShowOrders";
 
 function App() {
   return (
@@ -160,6 +161,17 @@ function App() {
             }
           />
           {/* Products Route End */}
+
+          {/* Order All Routs Start */}
+          <Route
+            path="/admin/orders"
+            element={
+              <AdminRequireAuth>
+                <ShowOrders />
+              </AdminRequireAuth>
+            }
+          />
+          {/* Order All Routs End */}
 
           {/* All Admin Routs End */}
         </Routes>
