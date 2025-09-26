@@ -33,6 +33,10 @@ Route::group(['middleware' => ['auth:sanctum', 'checkUserRole']], function () {
     Route::controller(OrderController::class)->group(function () {
         Route::post('save-order', 'saveOrder');
     });
+
+    Route::controller(AccountController::class)->group(function () {
+        Route::get('get-order-details/{id}', 'getOrderDetails');
+    });
 });
 
 // Route::get('/user', function (Request $request) {
