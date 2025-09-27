@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../common/Sidebar";
 import { adminToken, apiUrl } from "../../common/http";
 import Loader from "../../common/Loader";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const OrderDetail = () => {
   // Page Title
@@ -15,6 +17,15 @@ const OrderDetail = () => {
   const [items, setItems] = useState([]);
   const [loader, setLoader] = useState(false);
   const params = useParams();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm();
 
   const fetchOrder = async () => {
     setLoader(true);
@@ -29,11 +40,40 @@ const OrderDetail = () => {
       .then((res) => res.json())
       .then((result) => {
         setLoader(false);
-        console.log(result.data);
-
         if (result.status == 200) {
           setOrder(result.data);
           setItems(result.data.items);
+          reset({
+            status: result.data.status,
+            payment_status: result.data.payment_status,
+          });
+        } else {
+          console.log("Something Went Wrong!");
+        }
+      });
+  };
+
+  const updateOrder = async (data) => {
+    setLoader(true);
+    const res = await fetch(`${apiUrl}/update-order/${params.id}`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${adminToken()}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setLoader(false);
+        if (result.status == 200) {
+          setOrder(result.data);
+          reset({
+            status: result.data.status,
+            payment_status: result.data.payment_status,
+          });
+          toast.success(result.message);
         } else {
           console.log("Something Went Wrong!");
         }
@@ -191,7 +231,42 @@ const OrderDetail = () => {
               </div>
               <div className="col-md-3">
                 <div className="card shadow">
-                  <div className="card-body p-4"></div>
+                  <div className="card-body p-4">
+                    <form onSubmit={handleSubmit(updateOrder)}>
+                      <div className="mb-3">
+                        <label htmlFor="status" className="form-label">
+                          Status
+                        </label>
+                        <select
+                          {...register("status", { required: true })}
+                          id="status"
+                          className="form-select"
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      </div>
+
+                      <div className="mb-3">
+                        <label htmlFor="payment_status" className="form-label">
+                          Payment Status
+                        </label>
+                        <select
+                          {...register("payment_status", { required: true })}
+                          id="payment_status"
+                          className="form-select"
+                        >
+                          <option value="paid">Paid</option>
+                          <option value="not paid">Not Paid</option>
+                        </select>
+                      </div>
+                      <button type="submit" className="btn btn-primary">
+                        Update
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>

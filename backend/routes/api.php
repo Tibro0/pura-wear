@@ -68,6 +68,6 @@ Route::group(['middleware' => ['auth:sanctum', 'checkAdminRole']], function () {
     Route::controller(AdminOrderController::class)->group(function () {
         Route::get('orders', 'index');
         Route::get('orders/{id}', 'detail');
-        Route::get('update-order/{id}', 'updateOrder');
+        Route::post('update-order/{id}', 'updateOrder');
     });
 });
