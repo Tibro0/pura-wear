@@ -79,7 +79,7 @@ const MyOrders = () => {
                         return (
                           <tr key={order.id}>
                             <td>
-                              <Link to={`/admin/orders/${order.id}`}>
+                              <Link to={`/account/orders/details/${order.id}`}>
                                 {order.id}
                               </Link>
                             </td>

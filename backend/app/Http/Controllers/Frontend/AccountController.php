@@ -76,7 +76,7 @@ class AccountController extends Controller
 
     public function getOrderDetails(string $id, Request $request)
     {
-        $order = Order::where(['user_id' => $request->user()->id, 'id' => $id])->with('items')->first();
+        $order = Order::where(['user_id' => $request->user()->id, 'id' => $id])->with('items', 'items.product')->first();
 
         if ($order == null) {
             return response()->json([
