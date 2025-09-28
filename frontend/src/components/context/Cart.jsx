@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { apiUrl } from "../common/http";
 
 export const CartContext = createContext();
 
@@ -6,6 +7,7 @@ export const CartProvider = ({ children }) => {
   const [cartData, setCartData] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
+  const [shippingCost, setShippingCost] = useState(0);
 
   const addToCart = (product, size = null) => {
     let updatedCart = [...cartData];
@@ -80,7 +82,13 @@ export const CartProvider = ({ children }) => {
   };
 
   const shipping = () => {
-    return 0;
+    
+    let shippingAmount = 0;
+    cartData.map((item) => {
+      shippingAmount += item.qty * shippingCost;
+    });
+
+    return shippingAmount;
   };
 
   const subTotal = () => {
@@ -119,6 +127,25 @@ export const CartProvider = ({ children }) => {
     });
     return qty;
   };
+
+  useEffect(() => {
+    fetch(`${apiUrl}/get-shipping-frontend`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status == 200) {
+          setShippingCost(result.data.shipping_charge);
+        } else {
+          setShippingCost(0);
+          toast.error("Something Went Wrong!");
+        }
+      });
+  });
 
   return (
     <CartContext.Provider

@@ -20,7 +20,7 @@ const Shipping = () => {
     formState: { errors },
   } = useForm({
     defaultValues: async () => {
-        await fetch(`${apiUrl}/get-shipping`, {
+      await fetch(`${apiUrl}/get-shipping`, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -32,10 +32,10 @@ const Shipping = () => {
         .then((result) => {
           if (result.status == 200) {
             reset({
-                shipping_charge:result.data.shipping_charge
-            })
+              shipping_charge: result.data.shipping_charge,
+            });
           } else {
-            toast.error('Something Went Wrong!')
+            toast.error("Something Went Wrong!");
           }
         });
     },
