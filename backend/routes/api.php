@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TempImageController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ProductController as FrontendProductController;
+use App\Http\Controllers\Frontend\ShippingController as FrontendShippingController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -29,6 +30,10 @@ Route::controller(FrontendProductController::class)->group(function () {
 Route::controller(AccountController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'authenticate');
+});
+
+Route::controller(FrontendShippingController::class)->group(function () {
+    Route::get('get-shipping-frontend', 'getShipping');
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'checkUserRole']], function () {
