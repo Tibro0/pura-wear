@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\TempImageController;
 use App\Http\Controllers\Frontend\AccountController;
@@ -72,5 +73,11 @@ Route::group(['middleware' => ['auth:sanctum', 'checkAdminRole']], function () {
         Route::get('orders', 'index');
         Route::get('orders/{id}', 'detail');
         Route::post('update-order/{id}', 'updateOrder');
+    });
+
+    // Shipping All Routs
+    Route::controller(ShippingController::class)->group(function () {
+        Route::get('get-shipping', 'getShipping');
+        Route::post('save-shipping', 'updateShipping');
     });
 });
