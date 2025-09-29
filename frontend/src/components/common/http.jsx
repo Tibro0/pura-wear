@@ -11,3 +11,5 @@ export const userToken = () => {
 
     return data.token;
 }
+
+export const STRIPE_PUBLIC_KEY = 'pk_test_51SCPHFSsyeFzZk8BL3Ap2LAJABnRBdqxeluGEUROAlKN54QB22VROXloNvGAFkm4pccSa2bJZ3o3e1a7jBRMKI9Z00smIIJUH9'
