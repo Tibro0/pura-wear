@@ -39,6 +39,7 @@ Route::controller(FrontendShippingController::class)->group(function () {
 Route::group(['middleware' => ['auth:sanctum', 'checkUserRole']], function () {
     Route::controller(OrderController::class)->group(function () {
         Route::post('save-order', 'saveOrder');
+        Route::post('create-payment-intent', 'createPaymentIntent');
     });
 
     Route::controller(AccountController::class)->group(function () {
