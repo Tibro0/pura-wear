@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import LogoBlack from "../../assets/images/logo-white.png";
 import { Link } from "react-router-dom";
 import { apiUrl } from "./http";
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
   const [categories, setCategories] = useState([]);
@@ -47,11 +48,8 @@ const Footer = () => {
               {categories &&
                 categories.map((category) => {
                   return (
-                    <li>
-                      <a
-                        href={`/shop?category=${category.id}`}
-                        key={`category-${category.id}`}
-                      >
+                    <li key={category.id}>
+                      <a href={`/shop?category=${category.id}`}>
                         {category.name}
                       </a>
                     </li>
@@ -63,10 +61,12 @@ const Footer = () => {
             <h2 className="mb-3">Quick Links</h2>
             <ul>
               <li>
-                <Link to="/account/login">Login</Link>
+                <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/account/login">
+                  Login
+                </NavLink>
               </li>
               <li>
-                <Link to="/account/register">Register</Link>
+                <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/account/register">Register</NavLink>
               </li>
             </ul>
           </div>
