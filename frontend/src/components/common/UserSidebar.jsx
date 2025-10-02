@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/Auth";
 
 const UserSidebar = () => {
@@ -9,10 +9,10 @@ const UserSidebar = () => {
       <div className="card-body p-4">
         <ul>
           <li>
-            <Link to="/account">Account</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/account">Account</NavLink>
           </li>
           <li>
-            <Link to="/account/orders">Orders</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/account/orders">Orders</NavLink>
           </li>
           <li>
             <Link to="#">Change Password</Link>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AdminAuthContext } from "../context/AdminAuth";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const { logout } = useContext(AdminAuthContext);
@@ -10,25 +10,30 @@ const Sidebar = () => {
       <div className="card-body p-4">
         <ul>
           <li>
-            <Link to="/admin/dashboard">Dashboard</Link>
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/admin/dashboard"
+            >
+              Dashboard
+            </NavLink>
           </li>
           <li>
-            <Link to="/admin/categories">Categories</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/admin/categories">Categories</NavLink>
           </li>
           <li>
-            <Link to="/admin/brands">Brands</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/admin/brands">Brands</NavLink>
           </li>
           <li>
-            <Link to="/admin/products">Products</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/admin/products">Products</NavLink>
           </li>
           <li>
-            <Link to="/admin/orders">Orders</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/admin/orders">Orders</NavLink>
           </li>
           <li>
             <a href="">Users</a>
           </li>
           <li>
-            <Link to="/admin/shipping">Shipping</Link>
+            <NavLink className={({ isActive }) => (isActive ? "active" : "")} to="/admin/shipping">Shipping</NavLink>
           </li>
           <li>
             <a href="">Change Password</a>
