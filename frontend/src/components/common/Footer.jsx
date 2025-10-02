@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LogoBlack from "../../assets/images/logo-white.png";
 import { Link } from "react-router-dom";
+import { apiUrl } from "./http";
 
 const Footer = () => {
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = () => {
+    fetch(`${apiUrl}/get-categories`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status == 200) {
+          setCategories(result.data);
+        } else {
+          console.log("Something Went Wrong!");
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <footer className="py-5 text-white">
       <div className="container">
         <div className="row mb-5">
           <div className="col-md-3 pb-4">
-            <img src={LogoBlack} alt="" width={150} />
+            <Link to="/">
+              <img src={LogoBlack} alt="" width={150} />
+            </Link>
             <div className="pt-3 pe-5">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Repudiandae, fugit!
@@ -17,15 +44,19 @@ const Footer = () => {
           <div className="col-md-3 pb-4">
             <h2 className="mb-3">Categories</h2>
             <ul>
-              <li>
-                <a href="#">Kids</a>
-              </li>
-              <li>
-                <a href="#">Women</a>
-              </li>
-              <li>
-                <a href="#">Mens</a>
-              </li>
+              {categories &&
+                categories.map((category) => {
+                  return (
+                    <li>
+                      <a
+                        href={`/shop?category=${category.id}`}
+                        key={`category-${category.id}`}
+                      >
+                        {category.name}
+                      </a>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
           <div className="col-md-3 pb-4">
