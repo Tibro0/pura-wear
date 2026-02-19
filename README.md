@@ -1,4 +1,4 @@
-# Personal Portfolio Website
+# Pura Wear Website
 
 A brief description of your Laravel project and its purpose.
 
