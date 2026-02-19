@@ -65,7 +65,7 @@ DB_PASSWORD=your_password
 php artisan migrate:fresh --seed
 ```
 
-5. **Start The Development Server**
+5. **Start Backend Development Server**
 
 ```bash
 php artisan serve
@@ -74,5 +74,12 @@ php artisan serve
 
 ```bash
 cd frontend
+npm install
+npm run dev
+```
 
+5. **Start Frontend Development Server**
+
+```bash
+http://localhost:5173/
 ```
