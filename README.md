@@ -1,18 +1,15 @@
 # Pura Wear Website
 
-A brief description of your Laravel project and its purpose.
+A Brief Description of Your Laravel Project and Its Purpose.
 
 ## ✨ Features
 
-- HTML, CSS, Javascript
-- Ajax, OAuth
-- Facebook Login, Google Login
-- RESTful API endpoints
+- React Js
+- RESTful API Endpoints
 - Authentication & Authorization
-- Database migrations & seeders
-- Task scheduling with Laravel Scheduler
-- Queue jobs for background processing
-- Real-time features with Laravel Echo (if applicable)
+- Database Migrations & Seeders
+- Task Scheduling With Laravel Scheduler
+- Queue Jobs For Background Processing
 
 ## 📋 Prerequisites
 
@@ -20,11 +17,11 @@ Before you begin, ensure you have met the following requirements:
 
 - PHP >= 8.2
 - Composer 2.9.5
-- Node.js >= 14 (if using frontend build tools)
+- Node.js >= 22.22.0
 - NPM or Yarn
 - Database (MySQL)
 - Web server (Apache/Nginx) or PHP built-in server
-- Laravel Breeze
+- REST API
 
 ## 🚀 Installation
 
