@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             ProductSeeder::class,
             SizeSeeder::class,
-            // ProductImageSeeder::class,
+            ProductImageSeeder::class,
             // ProductSizeSeeder::class,
             // TempImageSeeder::class,
         ]);
