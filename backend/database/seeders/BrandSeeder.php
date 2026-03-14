@@ -15,31 +15,31 @@ class BrandSeeder extends Seeder
     {
         Brand::insert([
             [
-                'name'=> 'Puma',
+                'name'=> 'Aarong',
                 'status'=> 1,
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
             [
-                'name'=> 'Adidas',
+                'name'=> 'Ecstasy',
                 'status'=> 1,
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
             [
-                'name'=> 'Flying Machine',
+                'name'=> 'Yellow',
                 'status'=> 1,
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
             [
-                'name'=> 'Levis',
+                'name'=> 'Cats Eye',
                 'status'=> 1,
                 'created_at'=> now(),
                 'updated_at'=> now(),
             ],
             [
-                'name'=> 'Killer',
+                'name'=> 'Richman',
                 'status'=> 1,
                 'created_at'=> now(),
                 'updated_at'=> now(),
